@@ -19,7 +19,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
 
    hInstance = hInst;
 
-   wnd.style = CS_HREDRAW | CS_VREDRAW; //we will explain this later
+   wnd.style = CS_HREDRAW | CS_VREDRAW;
    wnd.lpfnWndProc = MyWndProc;
    wnd.cbClsExtra = 0;
    wnd.cbWndExtra = 0;
