@@ -41,11 +41,11 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
                         (DWORD)NULL,
                         szClassName,
                        "TicTacToe",
-                       WS_OVERLAPPEDWINDOW, //basic window style
-                       CW_USEDEFAULT,
-                       CW_USEDEFAULT,       //set starting point to default value
-                       360,
-                       400,       //set all the dimensions to default value
+                       WS_OVERLAPPED|WS_SYSMENU, //basic window style
+                       450,
+                       200,       //set starting point to default value
+                       400,
+                       350,       //set all the dimensions to default value
                        NULL,                //no parent window
                        NULL,                //no menu
                        hInstance,
@@ -69,12 +69,13 @@ LRESULT CALLBACK MyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     LRESULT textSize;
     HBRUSH color ;
     HDC hdcMem;
+    PAINTSTRUCT ps;
     BITMAP bitmap;
     HGDIOBJ oldBitmap;
     HBITMAP hbmplogo = NULL;
     hbmplogo = (HBITMAP)LoadImage(hInstance, "logo.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
     GetObject(hbmplogo, sizeof(bitmap), &bitmap);
-	//HDC hDC;
+
 
     switch(msg)
     {
@@ -84,18 +85,17 @@ LRESULT CALLBACK MyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
                                TEXT("button"),                      // The class name required is button
                                TEXT("Let's play"),                  // the caption of the button
                                WS_CHILD |WS_VISIBLE | BS_PUSHBUTTON,  // the styles
-                               65,230,                                  // the left and top co-ordinates
+                               80,230,                                  // the left and top co-ordinates
                                230,45,                              // width and height
                                hwnd,                                 // parent window handle
                                (HMENU)ID_BUTTON,                   // the ID of your button
                                hInstance,                            // the instance of your application
                                NULL) ;
 
- hbmplogo = (HBITMAP)LoadImage(hInstance, "paint.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 
                             break;
         case WM_PAINT:
-
+              hdc = BeginPaint(hwnd, &ps);
               hdcMem = CreateCompatibleDC(hdc);
               SelectObject(hdcMem, hbmplogo);
 
@@ -109,8 +109,8 @@ LRESULT CALLBACK MyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             // Restore the old bitmap
                 DeleteDC(hdcMem);
 
-//		EndPaint(hwnd, &Ps);
-            return 0;
+            EndPaint(hwnd, &ps);
+
              break;
             case WM_CLOSE:
             if(MessageBox(hwnd, "Are you're sure ? ", "Message", MB_YESNO | MB_ICONEXCLAMATION) == IDYES)
