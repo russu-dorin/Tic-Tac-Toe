@@ -6,41 +6,71 @@
 
 #define ID_BUTTON 100
 
-
-LPSTR szClassName = TEXT("MyClass");
 HINSTANCE hInstance;
-LRESULT CALLBACK MyWndProc(HWND, UINT, WPARAM, LPARAM);
+HWND hwnd1;
+HWND hwnd2;
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd);
+LRESULT CALLBACK MyWndProc1(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK MyWndProc2(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, int iCmdShow)
+int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
-   WNDCLASS wnd;
-   MSG msg;
-   HWND hwnd;
+    WNDCLASSEX wnd;
+    WNDCLASSEX wnd2;
+    memset(&wnd,0,sizeof(WNDCLASSEX));
+	memset(&wnd2,0,sizeof(WNDCLASSEX));
+    MSG msg;
+    HWND hwnd1;
+    HWND hwnd2;
 
-   hInstance = hInst;
+    hInstance = hInst;
 
-   wnd.style = CS_HREDRAW | CS_VREDRAW;
-   wnd.lpfnWndProc = MyWndProc;
-   wnd.cbClsExtra = 0;
-   wnd.cbWndExtra = 0;
-   wnd.hInstance = hInstance;
-   wnd.hIcon = LoadIcon(NULL, IDI_APPLICATION); //default icon
-   wnd.hCursor = LoadCursor(NULL, IDC_ARROW);   //default arrow mouse cursor
-   wnd.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(255,255,255));
-   wnd.lpszMenuName = NULL;                     //no menu
-   wnd.lpszClassName = szClassName;
+    // The Window 1 structure
+    wnd.cbSize=sizeof(WNDCLASSEX);
+    wnd.style = CS_HREDRAW | CS_VREDRAW;
+    wnd.lpfnWndProc = MyWndProc1;
+    wnd.cbClsExtra = 0;
+    wnd.cbWndExtra = 0;
+    wnd.hInstance = hInstance;
+    wnd.hIcon = LoadIcon(NULL, IDI_APPLICATION); //default icon
+    wnd.hCursor = LoadCursor(NULL, IDC_ARROW);   //default arrow mouse cursor
+    wnd.hbrBackground = (HBRUSH)CreateSolidBrush(RGB(255,255,255));
+    wnd.lpszMenuName = NULL;                     //no menu
+    wnd.lpszClassName = "MyClass1";
+    wnd.hIconSm=NULL;
 
-   if(!RegisterClass(&wnd))                     //register the WNDCLASS
-   {
-       MessageBox(NULL, "This Program Requires Windows NT",
-                        "Error", MB_OK);
-       return 0;
-   }
+    if(!RegisterClassEx(&wnd))                     //register the WNDCLASS
+        {MessageBox(NULL,"Could not register class1","Window Class Failed",MB_ICONERROR);
+        }
 
-   hwnd = CreateWindowEx(
-                        (DWORD)NULL,
-                        szClassName,
-                       "TicTacToe",
+
+    // The Window 2 structure
+    wnd2.cbSize=sizeof(WNDCLASSEX);
+    wnd2.hInstance = hInstance;
+    wnd2.lpfnWndProc = MyWndProc2;      /* This function is called by windows */
+    wnd2.style = CS_HREDRAW | CS_VREDRAW;    /* Redraw */
+    wnd2.cbSize = sizeof (WNDCLASSEX);
+    wnd2.hIcon = LoadIcon (NULL, IDI_ASTERISK);
+    wnd2.hCursor = LoadCursor (NULL, IDC_ARROW);
+    wnd2.lpszMenuName = NULL;                 /* Menu */
+    wnd2.cbClsExtra = 0;                      /* No extra bytes after the window class */
+    wnd2.cbWndExtra = 0;                      /* structure or the window instance */
+    wnd2.hbrBackground = (HBRUSH) COLOR_BACKGROUND;
+    wnd2.lpszClassName = "MyClass2";
+    wnd2.hIconSm=NULL;
+
+    /* Register the window class, and if it fails quit the program */
+   if (!RegisterClassEx (&wnd2))
+        {MessageBox(NULL,"Could not register class2","Window Class Failed",MB_ICONERROR);
+        }
+
+
+
+
+    hwnd1 = CreateWindowEx(
+                        NULL,
+                        "MyClass1",
+                       "Tic-Tac-Toe",
                        WS_OVERLAPPED|WS_SYSMENU, //basic window style
                        450,
                        200,       //set starting point to default value
@@ -50,28 +80,43 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR szCmdLine, in
                        NULL,                //no menu
                        hInstance,
                        NULL);               //no parameters to pass
-   ShowWindow(hwnd, iCmdShow);              //display the window on the screen
-   UpdateWindow(hwnd);             //make sure the window is updated correctly
+    ShowWindow(hwnd1, SW_SHOW);              //display the window on the screen
+    UpdateWindow(hwnd1);             //make sure the window is updated correctly
 
-   while(GetMessage(&msg, NULL, 0, 0))      //message loop
-   {
+    hwnd2 = CreateWindowEx (
+                        0,                   /* Extended possibilites for variation */
+                        "MyClass2",         /* Classname */
+                        "Tic-Tac-Toe",       /* Title Text */
+                        WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, /* default window */
+                        CW_USEDEFAULT,       /* Windows decides the position */
+                        CW_USEDEFAULT,       /* where the window ends up on the screen */
+                        546,                 /* The programs width */
+                        625,                 /* and height in pixels */
+                        NULL,        /* The window is a child-window to desktop */
+                        NULL,                /* No menu */
+                        hInstance,       /* Program Instance handler */
+                        NULL                 /* No Window Creation data */
+    );
+
+    /* Make the window visible on the screen */
+    ShowWindow (hwnd2, SW_HIDE);
+    UpdateWindow(hwnd2);
+
+    while(GetMessage(&msg, NULL, 0, 0))      //message loop
+    {
        TranslateMessage(&msg);
        DispatchMessage(&msg);
-   }
-   return msg.wParam;
-}
+    }
+    return msg.wParam;
+    }
 
-LRESULT CALLBACK MyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK MyWndProc1(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     static HWND button;
     HDC hdc = GetDC(hwnd);
-   static char * message = new char[100];
-    LRESULT textSize;
-    HBRUSH color ;
     HDC hdcMem;
     PAINTSTRUCT ps;
     BITMAP bitmap;
-    HGDIOBJ oldBitmap;
     HBITMAP hbmplogo = NULL;
     hbmplogo = (HBITMAP)LoadImage(hInstance, "logo.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
     GetObject(hbmplogo, sizeof(bitmap), &bitmap);
@@ -81,15 +126,15 @@ LRESULT CALLBACK MyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     {
         case WM_CREATE:
             button = CreateWindowEx(
-                               (DWORD) NULL,
+                               NULL,
                                TEXT("button"),                      // The class name required is button
                                TEXT("Let's play"),                  // the caption of the button
-                               WS_CHILD |WS_VISIBLE | BS_PUSHBUTTON,  // the styles
+                               WS_CHILD |WS_VISIBLE |BS_PUSHBUTTON,  // the styles
                                80,230,                                  // the left and top co-ordinates
                                230,45,                              // width and height
                                hwnd,                                 // parent window handle
                                (HMENU)ID_BUTTON,                   // the ID of your button
-                               hInstance,                            // the instance of your application
+                               GetModuleHandle(NULL),                            // the instance of your application
                                NULL) ;
 
 
@@ -112,8 +157,43 @@ LRESULT CALLBACK MyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             EndPaint(hwnd, &ps);
 
              break;
+
+            case WM_COMMAND:
+                {
+                    switch(LOWORD(wParam))
+                    {
+                    case ID_BUTTON:
+                        {
+                            if(!IsWindow(hwnd2))
+                            {
+                                hwnd2 = CreateWindowEx (
+                                        0,                   /* Extended possibilites for variation */
+                                        "MyClass2",         /* Classname */
+                                        "Tic-Tac-Toe",       /* Title Text */
+                                        WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, /* default window */
+                                        CW_USEDEFAULT,       /* Windows decides the position */
+                                        CW_USEDEFAULT,       /* where the window ends up on the screen */
+                                        546,                 /* The programs width */
+                                        625,                 /* and height in pixels */
+                                        NULL,        /* The window is a child-window to desktop */
+                                        NULL,                /* No menu */
+                                        hInstance,       /* Program Instance handler */
+                                        NULL                 /* No Window Creation data */
+                                );
+                                ShowWindow(hwnd2,SW_SHOW);
+                                ShowWindow(hwnd1,SW_HIDE);
+                                UpdateWindow(hwnd1);
+                            }
+
+                        }
+
+                        break;
+                    }
+                }
+                break;
+
             case WM_CLOSE:
-            if(MessageBox(hwnd, "Are you're sure ? ", "Message", MB_YESNO | MB_ICONEXCLAMATION) == IDYES)
+            if(MessageBox(hwnd, "Are you sure? ", "Message", MB_YESNO | MB_ICONEXCLAMATION) == IDYES)
                 DestroyWindow(hwnd);
 
             break ;
@@ -129,4 +209,17 @@ LRESULT CALLBACK MyWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             return DefWindowProc(hwnd, msg, wParam, lParam);
     }
     return 0;
+}
+
+LRESULT CALLBACK MyWndProc2(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch(msg)
+	{
+	case WM_CLOSE:
+		{
+		}
+		break;
+	}
+	return DefWindowProc(hwnd,msg,wParam,lParam);
+
 }
