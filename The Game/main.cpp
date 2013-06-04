@@ -83,24 +83,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInstance, LPSTR lpCmdLine, in
     ShowWindow(hwnd1, SW_SHOW);              //display the window on the screen
     UpdateWindow(hwnd1);             //make sure the window is updated correctly
 
-    hwnd2 = CreateWindowEx (
-                        0,                   /* Extended possibilites for variation */
-                        "MyClass2",         /* Classname */
-                        "Tic-Tac-Toe",       /* Title Text */
-                        WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX, /* default window */
-                        CW_USEDEFAULT,       /* Windows decides the position */
-                        CW_USEDEFAULT,       /* where the window ends up on the screen */
-                        546,                 /* The programs width */
-                        625,                 /* and height in pixels */
-                        NULL,        /* The window is a child-window to desktop */
-                        NULL,                /* No menu */
-                        hInstance,       /* Program Instance handler */
-                        NULL                 /* No Window Creation data */
-    );
-
-    /* Make the window visible on the screen */
-    ShowWindow (hwnd2, SW_HIDE);
-    UpdateWindow(hwnd2);
 
     while(GetMessage(&msg, NULL, 0, 0))      //message loop
     {
@@ -181,8 +163,7 @@ LRESULT CALLBACK MyWndProc1(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
                                         NULL                 /* No Window Creation data */
                                 );
                                 ShowWindow(hwnd2,SW_SHOW);
-                                ShowWindow(hwnd1,SW_HIDE);
-                                UpdateWindow(hwnd1);
+                                DestroyWindow(hwnd);
                             }
 
                         }
@@ -194,16 +175,12 @@ LRESULT CALLBACK MyWndProc1(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
             case WM_CLOSE:
             if(MessageBox(hwnd, "Are you sure? ", "Message", MB_YESNO | MB_ICONEXCLAMATION) == IDYES)
-                DestroyWindow(hwnd);
+                {
+                    DestroyWindow(hwnd);
+                    PostQuitMessage(0);
+                }
 
             break ;
-
-
-
-
-        case WM_DESTROY:
-            PostQuitMessage(0);
-            break;
 
         default:
             return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -217,9 +194,16 @@ LRESULT CALLBACK MyWndProc2(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_CLOSE:
 		{
+                if(MessageBox(hwnd, "Are you sure? ", "Message", MB_YESNO | MB_ICONEXCLAMATION) == IDYES)
+                DestroyWindow(hwnd);
 		}
 		break;
-	}
-	return DefWindowProc(hwnd,msg,wParam,lParam);
+	    case WM_DESTROY:
+            PostQuitMessage(0);
+            break;
 
+        default:
+            return DefWindowProc(hwnd, msg, wParam, lParam);
+    }
+    return 0;
 }
