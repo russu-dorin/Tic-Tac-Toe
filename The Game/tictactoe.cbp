@@ -26,6 +26,10 @@
 			<Add library="comctl32" />
 		</Linker>
 		<Unit filename="main.cpp" />
+		<Unit filename="resource.h" />
+		<Unit filename="script.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Unit filename="tictactoe.h" />
 		<Extensions>
 			<code_completion />

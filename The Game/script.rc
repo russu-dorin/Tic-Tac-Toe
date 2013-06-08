@@ -5,7 +5,7 @@ IDR_MENU MENU DISCARDABLE
 BEGIN
     POPUP "&Game"
     BEGIN
-        MENUITEM "&One Player",          IDR_OPTIONS_1PLAY
+//        MENUITEM "&One Player",          IDR_OPTIONS_1PLAY
         MENUITEM "&Two Player",          IDR_OPTIONS_2PLAY
         MENUITEM SEPARATOR
         MENUITEM "&Quit\tAlt+F4",        IDR_FILE_QUIT
@@ -30,7 +30,7 @@ FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON "&OK", IDOK, 170, 50, 50, 23
     GROUPBOX "About", IDC_STATIC, 9, 5, 225, 114
-    CTEXT "Tic-Tac-Toe\n\nPlay both single player and multiplayer by going to ""Game"" on the menu.\n Created by:\n   Cotet Dumitru\n   Russu Dorin\n   Plesco Alexandra", IDC_STATIC, 16, 21, 144, 88
+    CTEXT "Tic-Tac-Toe\n\nYou can play only two player game by going to ""Game"" on the menu.\n\n Created by:\n   Cotet Dumitru\n   Russu Dorin\n   Plesco Alexandra", IDC_STATIC, 16, 21, 144, 88
 END
 
 
