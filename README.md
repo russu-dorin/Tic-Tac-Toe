@@ -25,12 +25,17 @@ This Laboratory work was an interesting challenge. We are three people in the te
 2. Game window with different controls:
 
     2.1 File and About menus
+	
     2.2 The text element that says whos turn is
-    2.3 The Restart Button (is activated only when the game is over)
-    2.4 9 Controls for each cell of the Tic-Tac-Toe game
-    2.5 The player's scores
+    
+	2.3 The Restart Button (is activated only when the game is over)
+    
+	2.4 9 Controls for each cell of the Tic-Tac-Toe game
+    
+	2.5 The player's scores
 
 The screenshots of the application:
+
 ![SCreenshot](https://raw.github.com/russu-dorin/Tic-Tac-Toe/master/screenshot_1.jpg)
 ![SCreenshot](https://raw.github.com/russu-dorin/Tic-Tac-Toe/master/screenshot_2.jpg)
 ![SCreenshot](https://raw.github.com/russu-dorin/Tic-Tac-Toe/master/screenshot_3.jpg)
