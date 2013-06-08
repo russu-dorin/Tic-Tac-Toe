@@ -1,0 +1,36 @@
+#include "resource.h"
+#include <afxres.h>
+
+IDR_MENU MENU DISCARDABLE
+BEGIN
+    POPUP "&Game"
+    BEGIN
+        MENUITEM "&One Player",          IDR_OPTIONS_1PLAY
+        MENUITEM "&Two Player",          IDR_OPTIONS_2PLAY
+        MENUITEM SEPARATOR
+        MENUITEM "&Quit\tAlt+F4",        IDR_FILE_QUIT
+    END
+
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About",            IDR_HELP_ABOUT
+    END
+END
+
+IDI_ICON ICON DISCARDABLE "icon.ico"
+IDI_X    ICON DISCARDABLE "krestik.ico"
+IDI_O    ICON DISCARDABLE "nolik.ico"
+IDI_PEACE  ICON DISCARDABLE "peace.ico"
+
+
+IDD_ABOUT DIALOG DISCARDABLE 165, 42, 242, 127
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About Tic-Tac-Toe"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON "&OK", IDOK, 170, 50, 50, 23
+    GROUPBOX "About", IDC_STATIC, 9, 5, 225, 114
+    CTEXT "Tic-Tac-Toe\n\nPlay both single player and multiplayer by going to ""Game"" on the menu.\n Created by:\n   Cotet Dumitru\n   Russu Dorin\n   Plesco Alexandra", IDC_STATIC, 16, 21, 144, 88
+END
+
+
